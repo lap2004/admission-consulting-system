@@ -2961,3 +2961,20 @@
 2025-07-01 17:07:23.001 | INFO     | app.middleware.log_request:dispatch:18 - Response 401 in 0.80ms
 2025-07-01 17:07:40.265 | INFO     | app.middleware.log_request:dispatch:13 - \[POST] /chat/admission from 2001:ee0:5230:b530:2cd8:eaa0:1777:3288
 2025-07-01 17:07:53.066 | INFO     | app.middleware.log_request:dispatch:13 - \[POST] /chat/admission from 2001:ee0:5230:b530:2cd8:eaa0:1777:3288
+2025-07-20 18:40:56.864 | ERROR    | app.rag.llm_chain:ask_gemini:73 - Lỗi khi gọi Gemini: object GenerateContentResponse can't be used in 'await' expression
+2025-07-20 23:23:14.966 | ERROR    | app.rag.llm_chain:ask_gemini:104 - Lỗi khi gọi Gemini: 400 API key not valid. Please pass a valid API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key not valid. Please pass a valid API key."
+]
+2025-07-20 23:29:00.457 | ERROR    | app.rag.llm_chain:ask_claude:103 - Lỗi khi gọi Claude (Anthropic): "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2025-07-20 23:29:04.171 | ERROR    | app.rag.llm_chain:ask_claude:103 - Lỗi khi gọi Claude (Anthropic): "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2025-07-20 23:36:02.824 | ERROR    | app.rag.llm_chain:ask_claude:98 - Lỗi khi gọi Claude (Anthropic): "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2025-07-20 23:46:53.658 | ERROR    | app.rag.llm_chain:ask_claude:98 - Lỗi khi gọi Claude (Anthropic): "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2025-07-20 23:49:32.987 | ERROR    | app.rag.llm_chain:ask_claude:104 - Lỗi khi gọi Claude (Anthropic): "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2025-07-20 23:51:31.890 | ERROR    | app.rag.llm_chain:ask_claude:104 - Lỗi khi gọi Claude (Anthropic): "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2025-07-20 23:55:04.477 | ERROR    | app.rag.llm_chain:ask_claude:104 - Lỗi khi gọi Claude (Anthropic): Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}}

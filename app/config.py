@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+load_dotenv()
 import os
 from pydantic_settings import BaseSettings
 from functools import lru_cache
@@ -14,9 +16,11 @@ class Settings(BaseSettings):
     MODEL_ID: str = "BAAI/bge-m3"
 
     # Gemini
-    GEMINI_API_KEY: str
-    GEMINI_MODEL: str
-
+    # GEMINI_API_KEY: str
+    # GEMINI_MODEL: str  
+    LLM_PROVIDER: str 
+    LLM_API_KEY: str                     
+    LLM_MODEL: str
     #mail
     SMTP_EMAIL: str
     SMTP_PASSWORD: str
