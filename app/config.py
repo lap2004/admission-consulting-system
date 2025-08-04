@@ -16,11 +16,11 @@ class Settings(BaseSettings):
     MODEL_ID: str = "BAAI/bge-m3"
 
     # Gemini
-    # GEMINI_API_KEY: str
-    # GEMINI_MODEL: str  
-    LLM_PROVIDER: str 
-    LLM_API_KEY: str                     
-    LLM_MODEL: str
+    GEMINI_API_KEY: str
+    GEMINI_MODEL: str  
+    # LLM_PROVIDER: str 
+    # LLM_API_KEY: str                     
+    # LLM_MODEL: str
     #mail
     SMTP_EMAIL: str
     SMTP_PASSWORD: str
