@@ -18,7 +18,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
 
-    allow_origins=["https://selections-direct-sustained-magical.trycloudflare.com","https://vlu-chatbot.vercel.app"],
+    allow_origins=["https://seo-visiting-emissions-lazy.trycloudflare.com","https://vlu-chatbot.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
