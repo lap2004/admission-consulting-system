@@ -31,7 +31,7 @@ class Settings(BaseSettings):
     
     google_client_id: str
     google_client_secret: str
-    # api_backend_domain: str
+    api_backend_domain: str
     nextauth_url: str
     nextauth_secret: str
 
