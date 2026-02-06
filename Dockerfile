@@ -21,7 +21,7 @@
 # # Cloud Run sẽ cung cấp PORT (mặc định 8080)
 # CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}"]
 
-FROM python:3.11-slim
+FROM python:3.10-slim
 
 WORKDIR /app
 
@@ -32,4 +32,5 @@ COPY . .
 
 ENV PORT=8080
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD exec uvicorn main:app --host 0.0.0.0 --port $PORT
+
