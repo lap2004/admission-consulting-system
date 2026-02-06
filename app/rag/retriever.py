@@ -3,15 +3,15 @@ from sqlalchemy import text
 from typing import Literal
 
 TABLE_BY_ROLE = {
-    "guest": "embedding_admissions_20250715",
-    "admission": "embedding_admissions_20250715",
+    "guest": "embedding_admissions_20250716",
+    "admission": "embedding_admissions_20250716",
     "student": """
         (
-            SELECT id, content, title, source, field, type, chunk_index, embedding FROM embedding_admissions_20250715
+            SELECT id, content, title, source, field, type, chunk_index, embedding FROM embedding_admissions_20250716
             UNION ALL
-            SELECT id, content, title, source, field, type, chunk_index, embedding FROM embedding_students_20250715
+            SELECT id, content, title, source, field, type, chunk_index, embedding FROM embedding_students_20250716
             UNION ALL
-            SELECT id, content, title, source, field, type, chunk_index, embedding FROM embedding_pdfs_20250715
+            SELECT id, content, title, source, field, type, chunk_index, embedding FROM embedding_pdfs_20250716
         )
     """
 }

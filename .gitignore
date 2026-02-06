@@ -1,0 +1,25 @@
+# ===== ENV =====
+.env
+.env.*
+
+# ===== Python =====
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ===== Logs =====
+logs/
+*.log
+
+# ===== Virtual env =====
+venv/
+.env/
+.nckh/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== Docker local =====
+docker-compose.override.yml

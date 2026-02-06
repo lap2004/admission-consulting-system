@@ -1,0 +1,26 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+dist/
+build/
+.eggs/
+*.egg-info/
+
+.git/
+.github/
+
+logs/
+*.log
+
+# frontend folder nếu bạn build riêng
+Frontend_UI/node_modules/
+Frontend_UI/.next/
+Frontend_UI/out/
+
+# nếu data/pdf quá nặng, cân nhắc không copy vào image
+# data/static/pdfs/

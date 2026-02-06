@@ -130,18 +130,18 @@ async def get_admin_stats(db: AsyncSession = Depends(get_db)):
         # Tổng số embedding
         total_embeddings = await db.scalar(text("""
             SELECT 
-                (SELECT COUNT(*) FROM embedding_admissions_20250715) +
-                (SELECT COUNT(*) FROM embedding_students_20250715) +
-                (SELECT COUNT(*) FROM embedding_pdfs_20250715)
+                (SELECT COUNT(*) FROM embedding_admissions_20250716) +
+                (SELECT COUNT(*) FROM embedding_students_20250716) +
+                (SELECT COUNT(*) FROM embedding_pdfs_20250716)
         """))
 
         # Tổng số lượt truy trang
         total_page_views = await db.scalar(text("SELECT COUNT(*) FROM page_views"))
 
         # Phân bổ embedding
-        admissions_count = await db.scalar(text("SELECT COUNT(*) FROM embedding_admissions_20250715"))
-        students_count = await db.scalar(text("SELECT COUNT(*) FROM embedding_students_20250715"))
-        pdfs_count = await db.scalar(text("SELECT COUNT(*) FROM embedding_pdfs_20250715"))
+        admissions_count = await db.scalar(text("SELECT COUNT(*) FROM embedding_admissions_20250716"))
+        students_count = await db.scalar(text("SELECT COUNT(*) FROM embedding_students_20250716"))
+        pdfs_count = await db.scalar(text("SELECT COUNT(*) FROM embedding_pdfs_20250716"))
 
         # Lượt hỏi theo ngày
         daily_chat_stats = (await db.execute(text("""
