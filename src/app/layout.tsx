@@ -39,7 +39,7 @@ export default function RootLayout({
   }, [pathname]);
   return (
     <html lang="en">
-      <body className={`${roboto.className} antialiased`}>
+      <body className={`${roboto.className} antialiased`} suppressHydrationWarning>
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
           <EmotionProvider>{children}</EmotionProvider>
         </GoogleOAuthProvider>
