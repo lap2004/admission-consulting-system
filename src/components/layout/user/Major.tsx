@@ -2,15 +2,15 @@ import { Card, CardContent, CardMedia, Grid, Link, Typography } from "@mui/mater
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 const majors = [
-    { title: "THIẾT KẾ", icon: "https://ext.same-assets.com/3671364340/1546733673.png" },
-    { title: "LUẬT - KINH DOANH & QUẢN LÝ", icon: "https://ext.same-assets.com/3671364340/240114473.png" },
-    { title: "TRUYỀN THÔNG", icon: "https://ext.same-assets.com/3671364340/4240619985.png" },
-    { title: "XÃ HỘI NHÂN VĂN - NGÔN NGỮ", icon: "https://ext.same-assets.com/3671364340/273649144.png" },
-    { title: "CÔNG NGHỆ - KỸ THUẬT", icon: "https://ext.same-assets.com/3671364340/2940056520.png" },
-    { title: "KIẾN TRÚC", icon: "https://ext.same-assets.com/3671364340/3458008392.png" },
-    { title: "KHOA HỌC SỨC KHỎE", icon: "https://ext.same-assets.com/3671364340/709881049.png" },
-    { title: "NGHỆ THUẬT", icon: "https://ext.same-assets.com/3671364340/352056085.png" },
-    { title: "DU LỊCH", icon: "https://ext.same-assets.com/3671364340/2165468724.png" },
+    { title: "THIẾT KẾ", icon: "/mt.jpg" },
+    { title: "LUẬT - KINH DOANH & QUẢN LÝ", icon: "/kte.jpg" },
+    { title: "TRUYỀN THÔNG", icon: "/chnv.jpg" },
+    { title: "XÃ HỘI NHÂN VĂN - NGÔN NGỮ", icon: "/chnv.jpg" },
+    { title: "CÔNG NGHỆ - KỸ THUẬT", icon: "/cn.jpg" },
+    { title: "KIẾN TRÚC", icon: "/kt.jpg" },
+    { title: "KHOA HỌC SỨC KHỎE", icon: "/yt.jpg" },
+    { title: "NGHỆ THUẬT", icon: "/mt.jpg" },
+    { title: "DU LỊCH", icon: "/dl.jpg" },
 ];
 
 export default function Major() {

@@ -17,19 +17,19 @@ const newsData = [
       "Trường Đại học Văn Lang nhận hồ sơ thi đánh giá năng lực V‑SAT năm 2025",
     date: "2025-04-21",
     source: "Phòng Tuyển sinh & Truyền thông",
-    image: "https://ext.same-assets.com/3671364340/849522504.jpeg",
+    image: "https://www.vlu.edu.vn/_next/image?url=https%3A%2F%2Fvluwebmedia.s3.ap-southeast-1.amazonaws.com%2F16_5_18109442f0.jpg&w=1920&q=75",
   },
   {
     title: "Trường ĐH Văn Lang nhận hồ sơ xét duyệt học bổng tài năng 2025",
     date: "2025-04-21",
     source: "Phòng Tuyển sinh & Truyền thông",
-    image: "https://ext.same-assets.com/3671364340/849522504.jpeg",
+    image: "https://www.vlu.edu.vn/_next/image?url=https%3A%2F%2Fvluwebmedia.s3.ap-southeast-1.amazonaws.com%2Fvlu_thong_bao_nhan_ho_so_xet_duyet_hoc_bong_tai_nang_nam_2025_cover_d71b2c301f.jpg&w=1920&q=75",
   },
   {
     title: "Thông tin tuyển sinh 2025 của Trường Đại học Văn Lang",
     date: "2025-04-21",
     source: "Phòng Tuyển sinh & Truyền thông",
-    image: "https://ext.same-assets.com/3671364340/849522504.jpeg",
+    image: "https://www.vlu.edu.vn/_next/image?url=https%3A%2F%2Fvluwebmedia.s3.ap-southeast-1.amazonaws.com%2Fvlu_chinh_thuc_thong_tin_tuyen_sinh_2025_cover_3_d811772e03.jpg&w=1920&q=75",
   },
 ];
 
