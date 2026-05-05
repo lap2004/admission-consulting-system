@@ -274,3 +274,4 @@ cloudflared tunnel --url http://localhost:3000
 npm run dev
 
 # Backend
+"C:\Users\lapth\anaconda3\envs\nckh\python.exe" -m uvicorn app.main:app --reload --port 8000

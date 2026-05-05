@@ -1,6 +1,9 @@
 import google.generativeai as genai
 from app.config import settings
 from loguru import logger
+# Thêm dòng này để tắt warning (optional)
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning, module="google.generativeai")
 
 genai.configure(api_key=settings.GEMINI_API_KEY)
 model = genai.GenerativeModel(settings.GEMINI_MODEL)

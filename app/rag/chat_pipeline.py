@@ -132,7 +132,6 @@ from uuid import UUID
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.main import embedding_model
 from app.rag.retriever import retrieve_chunks
 from app.rag.llm_chain import ask_gemini
 from app.db.models.chat_model import ChatHistory
@@ -148,6 +147,7 @@ async def chat_pipeline(
     user_id: Optional[UUID] = None,
     username: str = "guest"
 ) -> dict:
+    from app.main import embedding_model
     # =========================
     # SAFETY CHECK
     # =========================

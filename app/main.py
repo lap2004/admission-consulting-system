@@ -104,7 +104,7 @@ async def startup_event():
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://seo-visiting-emissions-lazy.trycloudflare.com",
+        "https://demonstrates-fantastic-mortgage-antibodies.trycloudflare.com",
         "https://vlu-chatbot.vercel.app",
         "http://localhost:3000"
     ],
