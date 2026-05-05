@@ -63,6 +63,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
+import os
+
+os.environ["HF_HUB_OFFLINE"] = "1"
 
 from sentence_transformers import SentenceTransformer
 

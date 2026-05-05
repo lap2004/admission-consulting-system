@@ -127,10 +127,13 @@
 # #     }
 
 
+import time
 from typing import Optional
 from uuid import UUID
+import asyncio
 
 from sqlalchemy.ext.asyncio import AsyncSession
+from loguru import logger
 
 from app.rag.retriever import retrieve_chunks
 from app.rag.llm_chain import ask_gemini
@@ -141,7 +144,7 @@ async def chat_pipeline(
     question: str,
     role: str,
     db: AsyncSession,
-    top_k: int = 20,
+    top_k: int = 5,
     filter_field: str = "",
     filter_type: str = "",
     user_id: Optional[UUID] = None,
@@ -154,17 +157,24 @@ async def chat_pipeline(
     if embedding_model is None:
         raise RuntimeError("Embedding model not loaded")
 
+    start_total = time.time()
+
     # =========================
     # QUERY EMBEDDING
     # =========================
-    query_vector = embedding_model.encode(
+    t0 = time.time()
+    query_vector_np = await asyncio.to_thread(
+        embedding_model.encode,
         question,
         normalize_embeddings=True
-    ).tolist()
+    )
+    query_vector = query_vector_np.tolist()
+    embed_time = time.time() - t0
 
     # =========================
     # RETRIEVE CHUNKS
     # =========================
+    t0 = time.time()
     chunks = await retrieve_chunks(
         embedding=query_vector,
         role=role,
@@ -173,15 +183,19 @@ async def chat_pipeline(
         field=filter_field,
         type_=filter_type
     )
+    retrieve_time = time.time() - t0
 
     # =========================
     # LLM
     # =========================
-    answer = ask_gemini(question, chunks)
+    t0 = time.time()
+    answer = await ask_gemini(question, chunks)
+    llm_time = time.time() - t0
 
     # =========================
     # SAVE CHAT HISTORY
     # =========================
+    t0 = time.time()
     history = ChatHistory(
         user_id=user_id,
         username=username,
@@ -191,6 +205,10 @@ async def chat_pipeline(
     )
     db.add(history)
     await db.commit()
+    save_time = time.time() - t0
+    
+    total_time = time.time() - start_total
+    logger.info(f"[TIMING] Embed: {embed_time:.2f}s | Retrieve: {retrieve_time:.2f}s | LLM: {llm_time:.2f}s | Save: {save_time:.2f}s | TOTAL: {total_time:.2f}s")
 
     return {
         "answer": answer,

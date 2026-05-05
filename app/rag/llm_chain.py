@@ -1,40 +1,44 @@
-import google.generativeai as genai
+from google import genai
 from app.config import settings
 from loguru import logger
-# Thêm dòng này để tắt warning (optional)
-import warnings
-warnings.filterwarnings("ignore", category=FutureWarning, module="google.generativeai")
 
-genai.configure(api_key=settings.GEMINI_API_KEY)
-model = genai.GenerativeModel(settings.GEMINI_MODEL)
+client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
 def format_prompt(question: str, contexts: list[dict]) -> str:
     context_texts = [chunk["content"].strip() for chunk in contexts if chunk.get("content")]
     context_block = "\n".join(context_texts)
 
-    return f"""Bạn là trợ lý AI hỗ trợ thông tin tuyển sinh và đào tạo cho Trường Đại học Văn Lang.
+    return f"""Bạn là trợ lý AI chuyên nghiệp hỗ trợ thông tin tuyển sinh và đào tạo cho Trường Đại học Văn Lang.
 
-Hướng dẫn:
-- Nếu người dùng hỏi bằng tiếng Việt → trả lời bằng tiếng Việt.
-- Nếu người dùng hỏi bằng tiếng Anh → trả lời bằng tiếng Anh.
-- Trả lời ngắn gọn, chính xác, rõ ràng, dễ hiểu.
-- Nếu có nhiều ý → trình bày bằng danh sách có đánh số (1., 2., 3...) hoặc gạch đầu dòng đơn giản (-).
-- Không nhắc lại "Nội dung tham khảo".
-- Nếu câu hỏi không rõ → yêu cầu người dùng hỏi cụ thể hơn.
-- Nếu chỉ là lời chào → trả lời thân thiện.
-- Bạn **không** được sử dụng bất kỳ định dạng Markdown nào như **chữ in đậm**, *in nghiêng*, hoặc danh sách đánh dấu bằng dấu `*`. Chỉ sử dụng văn bản thuần túy.
+Yêu cầu về ngôn ngữ và trình bày:
+- Trả lời bằng ngôn ngữ tương ứng với câu hỏi của người dùng (Tiếng Việt hoặc Tiếng Anh).
+- Bắt buộc sử dụng tiếng Việt chuẩn xác, đúng ngữ pháp, có ĐẦY ĐỦ dấu câu (chấm, phẩy rõ ràng) và dấu chữ (dấu thanh tiếng Việt).
+- Diễn đạt câu văn trôi chảy, tự nhiên, lịch sự và chuyên nghiệp. Luôn viết hoa chữ cái đầu câu và có dấu chấm kết thúc câu.
+- Tuyệt đối không viết tắt, không dùng ngôn ngữ mạng (teencode).
+
+Hướng dẫn nội dung:
+- Trả lời đầy đủ ý nhưng súc tích, đi thẳng vào trọng tâm câu hỏi.
+- Nếu thông tin có nhiều ý, hãy trình bày rõ ràng bằng danh sách đánh số (1., 2., 3...) hoặc gạch đầu dòng (-).
+- Chỉ dựa vào "Nội dung tham khảo" bên dưới để trả lời. Tuyệt đối không tự bịa đặt thông tin.
+- Không lặp lại cụm từ "Theo nội dung tham khảo" hay "Trong tài liệu có ghi".
+- Nếu nội dung tham khảo không chứa đủ thông tin để trả lời, hãy nói rõ: "Tôi chưa có thông tin chính xác cho câu hỏi này, bạn vui lòng liên hệ bộ phận tuyển sinh để được hỗ trợ cụ thể hơn."
+- Nếu người dùng chỉ gửi lời chào, hãy đáp lại thân thiện.
+- KHÔNG sử dụng định dạng Markdown (**in đậm**, *in nghiêng*, `#`...). Chỉ trả về văn bản thuần túy.
 
 Nội dung tham khảo:
 {context_block}
 
-Câu hỏi: {question}
+Câu hỏi của người dùng: {question}
 """.strip()
 
-def ask_gemini(question: str, contexts: list[dict]) -> str:
+async def ask_gemini(question: str, contexts: list[dict]) -> str:
     prompt = format_prompt(question, contexts)
 
     try:
-        response = model.generate_content(prompt)
+        response = await client.aio.models.generate_content(
+            model=settings.GEMINI_MODEL,
+            contents=prompt
+        )
         answer = response.text.strip()
 
         if not answer or "không rõ" in answer.lower() or "không hiểu" in answer.lower():
@@ -48,70 +52,3 @@ def ask_gemini(question: str, contexts: list[dict]) -> str:
     except Exception as e:
         logger.error(f"Lỗi khi gọi Gemini: {e}")
         return " Rất tiếc, hệ thống đang gặp lỗi. Bạn vui lòng thử lại sau."
-
-# from openai import OpenAI
-# from app.config import settings
-# from loguru import logger
-
-# # Khởi tạo client với OpenRouter endpoint
-# client = OpenAI(
-#     api_key=settings.LLM_API_KEY,
-#     base_url="https://openrouter.ai/api/v1",
-# )
-
-# def format_prompt(question: str, contexts: list[dict], history: list[dict] = []) -> str:
-#     # Lấy context từ vector DB
-#     context_texts = [chunk["content"].strip() for chunk in contexts if chunk.get("content")]
-#     context_block = "\n".join(context_texts)
-
-#     # Tạo phần hội thoại gần nhất (lấy tối đa 3 lượt)
-#     history_turns = [
-#         f"Người dùng: {turn.get('question', '').strip()}\nTrợ lý: {turn.get('answer', '').strip()}"
-#         for turn in history[-3:]  # lấy 3 lượt gần nhất
-#         if turn.get("question") and turn.get("answer")
-#     ]
-#     history_block = "\n".join(history_turns)
-
-#     # Nếu câu hỏi hiện tại quá ngắn và có lịch sử, ta ghép để Claude hiểu rõ hơn
-#     last_topic = ""
-#     if len(question.split()) <= 4 and history:
-#         last_q = history[-1].get("question", "").strip()
-#         if "ngành" in last_q.lower():
-#             last_topic = f"(Ngữ cảnh trước đó: {last_q})"
-
-#     return f"""Bạn là trợ lý AI hỗ trợ thông tin tuyển sinh và đào tạo cho Trường Đại học Văn Lang.
-
-# Hướng dẫn:
-# - Nếu người dùng hỏi ngắn gọn như "điểm chuẩn bao nhiêu", bạn cần hiểu dựa trên ngữ cảnh hội thoại trước đó.
-# - Ưu tiên trả lời chính xác theo đúng ngành học, phương thức xét tuyển, năm và dữ kiện được hỏi.
-# - Nếu không đủ thông tin, hãy phản hồi lịch sự và hỏi lại cụ thể hơn.
-# - Không dùng định dạng Markdown (**in đậm**, *nghiêng*...).
-
-# Nội dung tham khảo (truy xuất từ CSDL):
-# {context_block}
-
-# Lịch sử hội thoại gần đây:
-# {history_block}
-
-# {last_topic}
-# Câu hỏi hiện tại: {question}
-# """.strip()
-
-
-# def ask_claude(question: str, contexts: list[dict], history: list[dict] = []) -> str:
-#     prompt = format_prompt(question, contexts, history)
-
-#     try:
-#         response = client.chat.completions.create(
-#             model=settings.LLM_MODEL,  # ví dụ: "anthropic/claude-3-haiku"
-#             messages=[
-#                 {"role": "system", "content": "Bạn là trợ lý AI tuyển sinh Văn Lang."},
-#                 {"role": "user", "content": prompt}
-#             ],
-#             temperature=0.7
-#         )
-#         return response.choices[0].message.content.strip()
-
-#     except Exception as e:
-#         logger.error(f"Lỗi khi gọi Claude (OpenRouter): {e}")
-#         return "Rất tiếc, hệ thống đang gặp lỗi. Bạn vui lòng thử lại sau."
