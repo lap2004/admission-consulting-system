@@ -149,3 +149,24 @@ CREATE TABLE IF NOT EXISTS page_views (
   viewed_at TIMESTAMP DEFAULT NOW()
 );
 ```
+
+---
+
+## 🤖 Cập nhật Dữ liệu Embedding (RAG)
+
+Khi bạn có các tài liệu mới (Word, PDF, TXT) và muốn cập nhật vào cơ sở dữ liệu kiến thức cho Chatbot, hãy làm theo 2 bước sau:
+
+**Bước 1: Trích xuất và chuẩn hóa tài liệu (Tự động bằng AI)**
+- Copy các file tài liệu thô (`.txt`, `.pdf`, `.docx`) vào thư mục `data/update/`.
+- Chạy lệnh sau để AI (Gemini) tự động đọc, bóc tách và định dạng lại thành file `extracted_update.json`:
+  ```bash
+  python scripts/extract_update_to_json.py
+  ```
+
+**Bước 2: Nạp dữ liệu (Embedding) vào Database**
+- Kiểm tra lại file `data/extracted_update.json` đã được tạo.
+- (Nếu cần) copy cấu trúc JSON từ file này sang file data chính (ví dụ `admissions_2025...json` hoặc `students_2025...json`).
+- Chạy script embedding để chuyển đổi JSON thành Vector và lưu vào PostgreSQL:
+  ```bash
+  python scripts/embed_runner.py
+  ```
