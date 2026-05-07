@@ -11,7 +11,7 @@ def embed_chunks(chunks: list[dict], table_name: str):
         print("Không có dữ liệu để embedding.")
         return
 
-    texts = [chunk["content"] for chunk in chunks]
+    texts = [f"{chunk.get('title', '')}\n{chunk['content']}" for chunk in chunks]
     embeddings = model.encode(texts, normalize_embeddings=True).tolist()
 
     with get_sync_session() as session:

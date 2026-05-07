@@ -133,11 +133,27 @@ from uuid import UUID
 import asyncio
 
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 from loguru import logger
 
 from app.rag.retriever import retrieve_chunks
 from app.rag.llm_chain import ask_gemini
 from app.db.models.chat_model import ChatHistory
+
+async def get_user_history(user_id: UUID, role: str, db: AsyncSession, limit: int = 5) -> list[dict]:
+    result = await db.execute(
+        select(ChatHistory)
+        .where(ChatHistory.user_id == user_id)
+        .where(ChatHistory.role == role)
+        .order_by(ChatHistory.created_at.desc())
+        .limit(limit)
+    )
+    previous_chats = result.scalars().all()
+    return [
+        {"question": chat.question, "answer": chat.answer}
+        for chat in reversed(previous_chats)
+        if chat.question and chat.answer
+    ]
 
 
 async def chat_pipeline(
@@ -160,12 +176,26 @@ async def chat_pipeline(
     start_total = time.time()
 
     # =========================
+    # GET USER HISTORY & REWRITE
+    # =========================
+    t0 = time.time()
+    history = []
+    search_query = question
+    if user_id and role == "student":
+        history = await get_user_history(user_id, role, db, limit=5)
+        if history:
+            from app.rag.llm_chain import rewrite_question
+            search_query = await rewrite_question(question, history)
+            logger.info(f"Original Query: {question} | Rewritten: {search_query}")
+    rewrite_time = time.time() - t0
+
+    # =========================
     # QUERY EMBEDDING
     # =========================
     t0 = time.time()
     query_vector_np = await asyncio.to_thread(
         embedding_model.encode,
-        question,
+        search_query,
         normalize_embeddings=True
     )
     query_vector = query_vector_np.tolist()
@@ -189,7 +219,7 @@ async def chat_pipeline(
     # LLM
     # =========================
     t0 = time.time()
-    answer = await ask_gemini(question, chunks)
+    answer = await ask_gemini(question, chunks, history=history)
     llm_time = time.time() - t0
 
     # =========================
@@ -208,7 +238,7 @@ async def chat_pipeline(
     save_time = time.time() - t0
     
     total_time = time.time() - start_total
-    logger.info(f"[TIMING] Embed: {embed_time:.2f}s | Retrieve: {retrieve_time:.2f}s | LLM: {llm_time:.2f}s | Save: {save_time:.2f}s | TOTAL: {total_time:.2f}s")
+    logger.info(f"[TIMING] Rewrite: {rewrite_time:.2f}s | Embed: {embed_time:.2f}s | Retrieve: {retrieve_time:.2f}s | LLM: {llm_time:.2f}s | Save: {save_time:.2f}s | TOTAL: {total_time:.2f}s")
 
     return {
         "answer": answer,

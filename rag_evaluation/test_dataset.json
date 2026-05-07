@@ -1,0 +1,62 @@
+[
+  {
+    "question": "Điểm chuẩn của ngành Tâm lý học năm gần đây là bao nhiêu?",
+    "ground_truth": "Đối với ngành Tâm lý học, điểm chuẩn 20204: học bạ: 18.0, thi tốt nghiệp: 16.0, đánh giá năng lục quốc gia: 650."
+  },
+  {
+    "question": "Ngành Ngôn ngữ Trung Quốc có thời gian đào tạo là bao lâu?",
+    "ground_truth": "Thời gian đào tạo của ngành Ngôn ngữ Trung Quốc là 4 năm."
+  },
+  {
+    "question": "Mã ngành của Công nghệ Điện ảnh - Truyền hình (*) là gì?",
+    "ground_truth": "Mã ngành của Công nghệ Điện ảnh - Truyền hình (*) là 7210302."
+  },
+  {
+    "question": "Ngành Công nghệ Truyền thông xét tuyển những tổ hợp môn nào?",
+    "ground_truth": "Các tổ hợp xét tuyển của ngành Công nghệ Truyền thông gồm: Ngữ văn, Lịch sử, Địa lý, Ngữ văn, Toán, Tiếng Anh, Ngữ văn, Toán, Vật lý, Ngữ văn, Toán, Lịch sử, Ngữ văn, Tiếng Anh, Tin học, Ngữ văn, Tiếng Anh, GDKT&PL."
+  },
+  {
+    "question": "Ngành Công nghệ Thẩm mỹ xét tuyển những tổ hợp môn nào?",
+    "ground_truth": "Các tổ hợp xét tuyển của ngành Công nghệ Thẩm mỹ gồm: Sinh học, Toán, Vật lý, Sinh học, Toán, Hóa học, Sinh học, Toán, Tiếng Anh, Sinh học, Toán, Công nghệ, Sinh học, Toán, Tin học, Sinh học, Ngữ văn, GDKT&PL."
+  },
+  {
+    "question": "Ngành Đông Phương học (Nhật Bản học) xét tuyển những tổ hợp môn nào?",
+    "ground_truth": "Các tổ hợp xét tuyển của ngành Đông Phương học (Nhật Bản học) gồm: Ngữ văn, Toán, Tiếng Anh, Ngữ văn, Toán, Lịch sử, Ngữ văn, Toán, Địa lý, Ngữ văn, Lịch sử, Địa lý, Ngữ văn, Lịch sử, Tiếng Anh, Ngữ văn, Địa lý, Tiếng Anh, Ngữ văn, GDKT&PL, Tiếng Anh."
+  },
+  {
+    "question": "Ngành Diễn viên Kịch, Điện ảnh - Truyền hình (*) có thời gian đào tạo là bao lâu?",
+    "ground_truth": "Thời gian đào tạo của ngành Diễn viên Kịch, Điện ảnh - Truyền hình (*) là 4 năm."
+  },
+  {
+    "question": "Ngành Kỹ thuật Xét nghiệm Y học có thời gian đào tạo là bao lâu?",
+    "ground_truth": "Thời gian đào tạo của ngành Kỹ thuật Xét nghiệm Y học là 4 năm."
+  },
+  {
+    "question": "Văn bằng tốt nghiệp của ngành Truyền thông Đa phương tiện là gì?",
+    "ground_truth": "Ngành Truyền thông Đa phương tiện cấp văn bằng: cử nhân."
+  },
+  {
+    "question": "Mã ngành của Đông phương học là gì?",
+    "ground_truth": "Mã ngành của Đông phương học là 7310608."
+  },
+  {
+    "question": "Mã ngành của Đông Phương học (Hàn Quốc học) là gì?",
+    "ground_truth": "Mã ngành của Đông Phương học (Hàn Quốc học) là 7310608."
+  },
+  {
+    "question": "Mã ngành của Công nghệ Kỹ thuật Môi trường là gì?",
+    "ground_truth": "Mã ngành của Công nghệ Kỹ thuật Môi trường là 7510406."
+  },
+  {
+    "question": "Ngành Dược học xét tuyển những tổ hợp môn nào?",
+    "ground_truth": "Các tổ hợp xét tuyển của ngành Dược học gồm: Toán, Hóa học, Sinh học, Toán, Hóa học, Tiếng Anh, Toán, Hóa học, Vật lý, Toán, Hóa học, Tin học, Toán, Hóa học, GDKT&PL, Toán, Hóa học, Công nghệ."
+  },
+  {
+    "question": "Ngành Kiến trúc (*) xét tuyển những tổ hợp môn nào?",
+    "ground_truth": "Các tổ hợp xét tuyển của ngành Kiến trúc (*) gồm: Vẽ Mỹ thuật, Toán, Vật lý, Vẽ Mỹ thuật, Toán, Ngữ văn, Vẽ Mỹ thuật, Toán, Tiếng Anh, Vẽ Mỹ thuật, Ngữ văn, Vật lý."
+  },
+  {
+    "question": "Ngành Quản lý Xây dựng có thời gian đào tạo là bao lâu?",
+    "ground_truth": "Thời gian đào tạo của ngành Quản lý Xây dựng là 4 năm."
+  }
+]
