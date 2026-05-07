@@ -173,12 +173,6 @@ export default function Page({ params }: { params: Promise<Params> }) {
                 <p className='text-xl font-bold text-dark-grey'>Bước 1: Truy cập vào trang đăng ký</p>
                 <div>
                   <p>Mở trình duyệt truy cập vào:</p>
-                  <div>
-                    <ArrowRightAltIcon className='text-yellow-500' />
-                    <a href={''} className='text-blue-600 hover:underline'>
-                      Để đg dẫn đăng ky vao vào đây
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -310,12 +304,6 @@ export default function Page({ params }: { params: Promise<Params> }) {
                 <p className='text-xl font-bold text-dark-grey'>Bước 1: Truy cập vào trang đăng ký</p>
                 <div>
                   <p>Mở trình duyệt và truy cập vào đường dẫn để có thể vào trang đăng nhập:</p>
-                  <div>
-                    <ArrowRightAltIcon className='text-yellow-500' />
-                    <a href={''} className='text-blue-600 hover:underline'>
-                      Để đg dẫn đăng nhập vao vào đây
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -428,12 +416,6 @@ export default function Page({ params }: { params: Promise<Params> }) {
                 <p className='text-xl font-bold text-dark-grey'>Trường hợp 1: Bạn vẫn còn nhớ mật khẩu mà vẫn muốn đổi mật khẩu</p>
                 <div className='flex flex-col gap-2'>
                   <p>Mở trình duyệt và truy cập vào đường dẫn để có thể vào trang đổi mật khẩu</p>
-                  <div>
-                    <ArrowRightAltIcon className='text-yellow-500' />
-                    <a href={''} className='text-blue-600 hover:underline'>
-                      Để đg dẫn đăng nhập vao vào đây
-                    </a>
-                  </div>
                   <div className='flex flex-col gap-2 justify-center items-center'>
                     <Image src="/changepass.png" alt="changepass" width={500} height={400} style={{ width: '100%', maxWidth: 500, height: 'auto', borderRadius: 8 }} />
                   </div>
