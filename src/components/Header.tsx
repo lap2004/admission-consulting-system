@@ -213,7 +213,7 @@ const Header = () => {
               >
                 <Link href={"/guide/1-gioi-thieu"} style={{ textDecoration: "none", color: "white" }}
                 >
-                  Hướng dẫn sử dung
+                  Hướng dẫn sử dụng
                 </Link>
 
               </Button>

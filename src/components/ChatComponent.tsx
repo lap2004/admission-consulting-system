@@ -1,14 +1,22 @@
 "use client";
 
 import LoadingDots from "@/src/components/LoadingDot";
-import { useChatAdmin, useChatStudent } from "@/src/services/hooks/hookChat";
+import { useChatAdmin, useChatStudent, useGetSessions, useGetSessionMessages } from "@/src/services/hooks/hookChat";
 import SendIcon from "@mui/icons-material/Send";
+import MenuIcon from "@mui/icons-material/Menu";
+import AddIcon from "@mui/icons-material/Add";
 import {
     Box,
     CircularProgress,
     Container,
     TextareaAutosize,
     Typography,
+    Drawer,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemText,
+    IconButton
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { motion } from "framer-motion";
@@ -29,14 +37,58 @@ export default function ChatComponent() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [chatMessages, setChatMessages] = useState<Message[]>([
     {
-      text:
-        "Xin chào, tôi là trợ lý ảo của trường Đại học Văn Lang. Tôi có thể giúp gì cho bạn?",
+      text: "Xin chào, tôi là trợ lý ảo của trường Đại học Văn Lang. Tôi có thể giúp gì cho bạn?",
       sender: "bot",
     },
   ]);
+  
+  const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const { postChatStudent } = useChatStudent();
   const { postChatAdmin } = useChatAdmin();
+  const { sessions, getSessions } = useGetSessions();
+  const { getSessionMessages } = useGetSessionMessages();
+
+  useEffect(() => {
+    const token = Cookies.get("access_token");
+    if (token) {
+      getSessions();
+    }
+  }, []);
+
+  const handleSessionSelect = async (sessionId: string) => {
+    setCurrentSessionId(sessionId);
+    setIsDrawerOpen(false);
+    try {
+      const res = await getSessionMessages(sessionId);
+      if (res && res.data) {
+        const msgs: Message[] = [];
+        res.data.forEach((m: any) => {
+          msgs.push({ text: m.question, sender: "user" });
+          msgs.push({ text: m.answer, sender: "bot" });
+        });
+        if (msgs.length === 0) {
+          setChatMessages([{ text: "Xin chào, tôi là trợ lý ảo của trường Đại học Văn Lang. Tôi có thể giúp gì cho bạn?", sender: "bot" }]);
+        } else {
+          setChatMessages(msgs);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleNewChat = () => {
+    setCurrentSessionId(null);
+    setChatMessages([
+      {
+        text: "Xin chào, tôi là trợ lý ảo của trường Đại học Văn Lang. Tôi có thể giúp gì cho bạn?",
+        sender: "bot",
+      },
+    ]);
+    setIsDrawerOpen(false);
+  };
 
   const handleSend = async () => {
     const trimmed = inputText.trim();
@@ -49,10 +101,19 @@ export default function ChatComponent() {
     try {
       let res;
       const token = Cookies.get("access_token");
+      const payload = currentSessionId ? { question: trimmed, session_id: currentSessionId } : { question: trimmed };
+      
       if (token) {
-        res = await postChatStudent({ question: trimmed });
+        res = await postChatStudent(payload);
       } else {
-        res = await postChatAdmin({ question: trimmed });
+        res = await postChatAdmin(payload);
+      }
+
+      if (res.data.session_id && !currentSessionId) {
+        setCurrentSessionId(res.data.session_id);
+        if (token) {
+          getSessions(); // Refresh list
+        }
       }
 
       setChatMessages((prev) => [
@@ -69,7 +130,7 @@ export default function ChatComponent() {
       setLoading(false);
       setTimeout(() => {
         inputRef.current?.focus();
-  }, 0);
+      }, 0);
     }
   };
 
@@ -86,6 +147,49 @@ export default function ChatComponent() {
 
   return (
     <Box sx={{ position: "relative", minHeight: "100vh", overflow: "hidden" }}>
+      
+      {/* Nút mở Menu */}
+      <IconButton 
+        onClick={() => setIsDrawerOpen(true)}
+        sx={{ position: "fixed", top: 80, left: 16, zIndex: 10, bgcolor: "rgba(255,255,255,0.8)" }}
+      >
+        <MenuIcon />
+      </IconButton>
+
+      {/* Drawer Sidebar */}
+      <Drawer
+        anchor="left"
+        open={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        PaperProps={{ sx: { width: 300, bgcolor: "#1e1e1e", color: "#fff" } }}
+      >
+        <Box sx={{ p: 2, display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #333" }}>
+          <Typography variant="h6">Lịch sử Chat</Typography>
+          <IconButton onClick={handleNewChat} sx={{ color: "#fff" }}>
+            <AddIcon />
+          </IconButton>
+        </Box>
+        <List sx={{ overflowY: "auto" }}>
+          {sessions?.data?.map((session: any) => (
+            <ListItem disablePadding key={session.id}>
+              <ListItemButton 
+                selected={session.id === currentSessionId}
+                onClick={() => handleSessionSelect(session.id)}
+                sx={{
+                  "&.Mui-selected": { bgcolor: alpha("#C1272D", 0.5) },
+                  "&.Mui-selected:hover": { bgcolor: alpha("#C1272D", 0.7) },
+                }}
+              >
+                <ListItemText 
+                  primary={session.title} 
+                  primaryTypographyProps={{ noWrap: true, fontSize: 14 }} 
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+
       <Container
         maxWidth="xl"
         sx={{
