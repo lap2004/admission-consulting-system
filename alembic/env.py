@@ -11,7 +11,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 # 🔧 Import settings và Base
 from app.config import settings
 from app.db.database import Base
-from app.db.models import user_model, chat_model, vector_model
+from app.db.models import user_model, chat_model, vector_model, chat_session
 from app.db.database import Base, sync_engine
 
 from logging.config import fileConfig

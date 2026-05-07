@@ -140,11 +140,10 @@ from app.rag.retriever import retrieve_chunks
 from app.rag.llm_chain import ask_gemini
 from app.db.models.chat_model import ChatHistory
 
-async def get_user_history(user_id: UUID, role: str, db: AsyncSession, limit: int = 5) -> list[dict]:
+async def get_user_history(session_id: UUID, db: AsyncSession, limit: int = 5) -> list[dict]:
     result = await db.execute(
         select(ChatHistory)
-        .where(ChatHistory.user_id == user_id)
-        .where(ChatHistory.role == role)
+        .where(ChatHistory.session_id == session_id)
         .order_by(ChatHistory.created_at.desc())
         .limit(limit)
     )
@@ -164,7 +163,8 @@ async def chat_pipeline(
     filter_field: str = "",
     filter_type: str = "",
     user_id: Optional[UUID] = None,
-    username: str = "guest"
+    username: str = "guest",
+    session_id: Optional[UUID] = None
 ) -> dict:
     from app.main import embedding_model
     # =========================
@@ -181,8 +181,8 @@ async def chat_pipeline(
     t0 = time.time()
     history = []
     search_query = question
-    if user_id and role == "student":
-        history = await get_user_history(user_id, role, db, limit=5)
+    if session_id:
+        history = await get_user_history(session_id, db, limit=5)
         if history:
             from app.rag.llm_chain import rewrite_question
             search_query = await rewrite_question(question, history)
@@ -226,14 +226,15 @@ async def chat_pipeline(
     # SAVE CHAT HISTORY
     # =========================
     t0 = time.time()
-    history = ChatHistory(
+    history_record = ChatHistory(
+        session_id=session_id,
         user_id=user_id,
         username=username,
         role=role,
         question=question,
         answer=answer,
     )
-    db.add(history)
+    db.add(history_record)
     await db.commit()
     save_time = time.time() - t0
     
