@@ -204,7 +204,20 @@ const Header = () => {
               </Button>
             </motion.div>
 
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                sx={{
+                  color: "white",
+                  fontWeight: "light",
+                }}
+              >
+                <Link href={"/guide/1-gioi-thieu"} style={{ textDecoration: "none", color: "white" }}
+                >
+                  Hướng dẫn sử dung
+                </Link>
 
+              </Button>
+            </motion.div>
 
             {/* Đăng Nhập / Đăng Xuất */}
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
