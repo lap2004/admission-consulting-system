@@ -1,6 +1,5 @@
 import os
 import json
-import uuid
 from typing import List, Dict
 from dotenv import load_dotenv
 import google.generativeai as genai

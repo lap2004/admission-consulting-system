@@ -18,9 +18,6 @@ class Settings(BaseSettings):
     # Gemini
     GEMINI_API_KEY: str
     GEMINI_MODEL: str  
-    # LLM_PROVIDER: str 
-    # LLM_API_KEY: str                     
-    # LLM_MODEL: str
     #mail
     SMTP_EMAIL: str
     SMTP_PASSWORD: str
