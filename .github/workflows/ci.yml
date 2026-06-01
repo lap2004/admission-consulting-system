@@ -24,6 +24,20 @@ jobs:
         pip install -r backend/requirements.txt
         
     - name: Run Pytest
+      env:
+        DATABASE_URL: "postgresql+asyncpg://dummy:dummy@localhost/dummy"
+        DATABASE_URL_ASYNC: "postgresql+asyncpg://dummy:dummy@localhost/dummy"
+        EMBED_MODEL_NAME: "keepitreal/vietnamese-sbert"
+        GEMINI_API_KEY: "dummy"
+        GEMINI_MODEL: "dummy"
+        SMTP_EMAIL: "dummy@dummy.com"
+        SMTP_PASSWORD: "dummy"
+        google_client_id: "dummy"
+        google_client_secret: "dummy"
+        api_backend_domain: "http://localhost:8000"
+        nextauth_url: "http://localhost:3000"
+        nextauth_secret: "dummy"
+        JWT_SECRET_KEY: "dummy"
       run: |
         cd backend
         # We dummy out the EMBED_MODEL_NAME since HF models can be large for CI,
