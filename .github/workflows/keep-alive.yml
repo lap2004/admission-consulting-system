@@ -1,0 +1,33 @@
+name: Keep Backend Alive (Midnight VNT)
+
+on:
+  schedule:
+    # 17:00 UTC = 00:00 (12:00 AM) giờ Việt Nam (UTC+7)
+    - cron: '0 17 * * *'
+  workflow_dispatch: # Cho phép chạy thủ công trên GitHub Actions
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gửi request tới Chat API
+        run: |
+          echo "Đang gửi request tới API chat để giữ server hoạt động..."
+          
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "https://lap2004-nckh-vlu.hf.space/chat/admission" \
+            -H "Content-Type: application/json" \
+            -d '{"question": "Hi, bạn là ai?", "session_id": null}')
+          
+          # Tách body và status code
+          HTTP_STATUS=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+          
+          echo "HTTP Status Code: $HTTP_STATUS"
+          echo "Response Body: $BODY"
+          
+          if [ "$HTTP_STATUS" -ne 200 ]; then
+            echo "❌ Request thất bại với mã trạng thái $HTTP_STATUS"
+            exit 1
+          fi
+          
+          echo "✅ Request thành công! Backend (Hugging Face) và Database (Supabase) đã được đánh thức."
