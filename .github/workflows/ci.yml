@@ -40,6 +40,10 @@ jobs:
         JWT_SECRET_KEY: "dummy"
       run: |
         cd backend
+        # Tạo file data/word_filter.json giả (do thư mục data/ bị ignore trên Git)
+        mkdir -p data
+        echo '[]' > data/word_filter.json
+        
         # We dummy out the EMBED_MODEL_NAME since HF models can be large for CI,
         # but since tests just check root health, we might need a mocked dependency
         # or we just let it run.
